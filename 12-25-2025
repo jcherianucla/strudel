@@ -1,0 +1,37 @@
+setcpm(140/4)
+
+$: s("9000_bd*4")
+  .gain(1.2)
+  ._scope()
+$: s("hh*8")
+.degradeBy(0.2)
+._scope()
+
+$: s("9000_sd*<0 2 2 4> <~ [hh hh hh hh] ~>").bank("RolandTR909").o(4)._scope()
+$: s("9000_bd*<0 2>!2").o(2)._scope()
+_$: n("<10 12 9 6>!4 <0 2 4 6>!4")
+  .fast(2)
+.s("sawtooth")
+.scale("Eb:major")
+  .trans(-12)
+.acidenv(slider(0.8,0,1,0.1))
+.o(2)
+
+$: n("<0 [2 0] 1 [2 0] 4 [2 0] 0 [2 0] 1 [2 0] 0>!8")
+  .s("sawtooth")
+  .trans(0)
+  .acidenv(slider(0.8,0,1,0.1))
+  .scale("c:minor")
+  .o(2)
+  ._scope()
+
+$: n("e1 e1 e2 e2")
+  .s("sine")
+  .gain(0.8)
+  .lpf(1200)
+  .o(2)
+
+$: s("[supersaw]!16")
+  .o(3).acidenv(slider(0.424))._scope()
+
+all (x => x.mul(postgain(1.1)))
